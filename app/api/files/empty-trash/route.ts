@@ -54,10 +54,17 @@ export async function DELETE() {
                 name: imagekitFileId,
                 limit: 1,
               });
-
               if (searchResults && searchResults.length > 0) {
-                await imagekit.deleteFile(searchResults[0].fileId);
+                const result = searchResults[0];
+
+                // Check if it's a file before accessing fileId
+                if (result.type === 'file') {
+                  await imagekit.deleteFile(result.fileId);
+                } else {
+                  console.log('Found folder instead of file, skipping deletion');
+                }
               } else {
+                // Fallback to using the imagekitFileId directly
                 await imagekit.deleteFile(imagekitFileId);
               }
             } catch (searchError) {
