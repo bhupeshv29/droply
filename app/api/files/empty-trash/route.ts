@@ -23,7 +23,7 @@ export async function DELETE() {
     const trashedFiles = await db
       .select()
       .from(files)
-      .where(and(eq(files.userId, userId), eq(files.isTrashed, true)));
+      .where(and(eq(files.userId, userId), eq(files.isTrasheded, true)));
 
     if (trashedFiles.length === 0) {
       return NextResponse.json(
@@ -86,7 +86,7 @@ export async function DELETE() {
     // Delete all trashed files from the database
     const deletedFiles = await db
       .delete(files)
-      .where(and(eq(files.userId, userId), eq(files.isTrashed, true)))
+      .where(and(eq(files.userId, userId), eq(files.isTrasheded, true)))
       .returning();
 
     return NextResponse.json({

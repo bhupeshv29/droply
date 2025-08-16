@@ -23,12 +23,12 @@ export async function PATCH(
 
         if (!file) return NextResponse.json({ error: "file not found" }, { status: 404 })
 
-        const updatedFiles = await db.update(files).set({ isTrashed: !file.isTrashed }).where(and(eq(files.id, fileId), eq(files.userId, userId))).returning();
+        const updatedFiles = await db.update(files).set({ isTrasheded: !file.isTrasheded }).where(and(eq(files.id, fileId), eq(files.userId, userId))).returning();
 
         console.log(updatedFiles);
 
 
-        const action = updatedFiles[0].isTrashed ? "moved to trash" : "restored";
+        const action = updatedFiles[0].isTrasheded ? "moved to trash" : "restored";
         return NextResponse.json({
             ...updatedFiles,
             message: `File ${action} successfully`,

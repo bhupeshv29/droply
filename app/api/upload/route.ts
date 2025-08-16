@@ -36,7 +36,7 @@ export async function POST(request: NextResponse) {
             parentId: null, // Root level by default
             isFolder: false,
             isStarred: false,
-            isTrash: false,
+            isTrashed: false,
         };
 
         const [newFile] = await db.insert(files).values(fileData).returning();

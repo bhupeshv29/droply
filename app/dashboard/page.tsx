@@ -1,8 +1,11 @@
+import DashboardContent from "@/components/DashboardContent"
 
 
 function Dashboard() {
   return (
-    <div>Dashboard</div>
+    <div >
+      <DashboardContent />
+    </div>
   )
 }
 
