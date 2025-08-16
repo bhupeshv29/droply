@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       parentId,
       isFolder: true,
       isStarred: false,
-      isTrashed: false,
+      isTrash: false,
     };
 
     const [newFolder] = await db.insert(files).values(folderData).returning();

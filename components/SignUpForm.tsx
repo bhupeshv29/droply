@@ -1,12 +1,12 @@
-"use client"
-import { useSignUp } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+"use client";
+
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
-import { signUpSchema } from "@/schemas/signUpSchema";
-import { useState } from "react";
-
+import { useSignUp } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { z } from "zod";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { Card, CardBody, CardHeader, CardFooter } from "@heroui/card";
@@ -19,20 +19,20 @@ import {
   Eye,
   EyeOff,
 } from "lucide-react";
-import Link from "next/link";
+import { signUpSchema } from "@/schemas/signUpSchema";
 
- function SignUpForm() {
+export default function SignUpForm() {
   const router = useRouter();
-  const [verifying, setVerifying] = useState(false);
+  const { signUp, isLoaded, setActive } = useSignUp();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [authError, setauthError] = useState<string | null>(null);
-  const [verificationCode, setverificationCode] = useState("");
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
   const [verificationError, setVerificationError] = useState<string | null>(
     null
   );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { signUp, isLoaded, setActive } = useSignUp();
 
   const {
     register,
@@ -49,23 +49,23 @@ import Link from "next/link";
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     if (!isLoaded) return;
+
     setIsSubmitting(true);
-    setauthError(null);
+    setAuthError(null);
 
     try {
       await signUp.create({
         emailAddress: data.email,
         password: data.password,
       });
-      await signUp.prepareEmailAddressVerification({
-        strategy: "email_code",
-      });
+
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setVerifying(true);
     } catch (error: any) {
-      console.error("signup Error", error);
-      setauthError(
+      console.error("Sign-up error:", error);
+      setAuthError(
         error.errors?.[0]?.message ||
-          "An error occurred during signup. Please try again "
+          "An error occurred during sign-up. Please try again."
       );
     } finally {
       setIsSubmitting(false);
@@ -77,15 +77,15 @@ import Link from "next/link";
   ) => {
     e.preventDefault();
     if (!isLoaded || !signUp) return;
+
     setIsSubmitting(true);
-    setauthError(null);
+    setVerificationError(null);
 
     try {
       const result = await signUp.attemptEmailAddressVerification({
         code: verificationCode,
       });
-      //todo: console result
-      console.log(result);
+
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
         router.push("/dashboard");
@@ -105,6 +105,7 @@ import Link from "next/link";
       setIsSubmitting(false);
     }
   };
+
   if (verifying) {
     return (
       <Card className="w-full max-w-md border border-default-200 bg-default-50 shadow-xl">
@@ -113,7 +114,7 @@ import Link from "next/link";
             Verify Your Email
           </h1>
           <p className="text-default-500 text-center">
-            We&apos;ve sent a verification code to your email
+            We've sent a verification code to your email
           </p>
         </CardHeader>
 
@@ -140,7 +141,7 @@ import Link from "next/link";
                 type="text"
                 placeholder="Enter the 6-digit code"
                 value={verificationCode}
-                onChange={(e) => setverificationCode(e.target.value)}
+                onChange={(e) => setVerificationCode(e.target.value)}
                 className="w-full"
                 autoFocus
               />
@@ -158,7 +159,7 @@ import Link from "next/link";
 
           <div className="mt-6 text-center">
             <p className="text-sm text-default-500">
-              Didn&apos;t receive a code?{" "}
+              Didn't receive a code?{" "}
               <button
                 onClick={async () => {
                   if (signUp) {
@@ -177,6 +178,7 @@ import Link from "next/link";
       </Card>
     );
   }
+
   return (
     <Card className="w-full max-w-md border border-default-200 bg-default-50 shadow-xl">
       <CardHeader className="flex flex-col gap-1 items-center pb-2">
@@ -323,4 +325,3 @@ import Link from "next/link";
     </Card>
   );
 }
-export default SignUpForm

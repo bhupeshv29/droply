@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -154,7 +153,7 @@ export default function SignInForm() {
 
       <CardFooter className="flex justify-center py-4">
         <p className="text-sm text-default-600">
-          Don&apos;t have an account?{" "}
+          Don't have an account?{" "}
           <Link
             href="/sign-up"
             className="text-primary hover:underline font-medium"

@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
       parentId: parentId,
       isFolder: false,
       isStarred: false,
-      isTrashed: false,
+      isTrash: false,
     };
 
     const [newFile] = await db.insert(files).values(fileData).returning();

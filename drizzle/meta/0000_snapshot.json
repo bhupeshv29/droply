@@ -1,7 +1,7 @@
 {
-  "id": "d9b9af93-f193-4ea5-ab7a-421fcb0f80d0",
+  "id": "35be4bc1-0c32-4899-a9e0-c0aa2ae884d8",
   "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "7",
+  "version": "6",
   "dialect": "postgresql",
   "tables": {
     "public.files": {
@@ -39,20 +39,20 @@
           "primaryKey": false,
           "notNull": true
         },
-        "fileUrl": {
-          "name": "fileUrl",
+        "file_url": {
+          "name": "file_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "thumbnail_url": {
+          "name": "thumbnail_url",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "thumbnail": {
-          "name": "thumbnail",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "userid_id": {
-          "name": "userid_id",
+        "user_id": {
+          "name": "user_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -61,7 +61,7 @@
           "name": "parent_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "is_folder": {
           "name": "is_folder",
@@ -77,8 +77,8 @@
           "notNull": true,
           "default": false
         },
-        "is_trashed": {
-          "name": "is_trashed",
+        "is_trash": {
+          "name": "is_trash",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
@@ -102,18 +102,11 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
+      "uniqueConstraints": {}
     }
   },
   "enums": {},
   "schemas": {},
-  "sequences": {},
-  "roles": {},
-  "policies": {},
-  "views": {},
   "_meta": {
     "columns": {},
     "schemas": {},
