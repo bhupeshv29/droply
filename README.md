@@ -31,7 +31,7 @@ A simple file storage application built with Next.js, Clerk, Neon, Drizzle, and 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/droply.git
+   git clone https://github.com/bhupeshv29/droply.git
    cd droply
    ```
 
